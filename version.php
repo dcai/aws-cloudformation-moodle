@@ -24,6 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2016101200;
+$plugin->version  = 2016101201;
 $plugin->requires = 2014111000;
 $plugin->component = 'spark_admission';

@@ -22,6 +22,8 @@
  * @subpackage spark_admission
  */
 
+require_once(__DIR__ . '/adminsettings.class.php');
+
 // Application Menu.
 $ADMIN->add('root', new admin_category('spark_admission', get_string('pluginname', 'spark_admission')));
 
@@ -51,6 +53,68 @@ $settings->add(
         'Application Form'
     )
 );
+
+$settings->add(
+    new admin_setting_configdate(
+        'spark_admission/cutoffdatemonth',
+        'cutoffdateday',
+        'cutoff date',
+        'cutoff date desc'
+    )
+);
+
+$settings->add(
+    new admin_setting_configcheckbox(
+        'spark_admission/restrictionprek',
+        get_string('restrictionprek', 'spark_admission'),
+        get_string('restrictionprekdesc', 'spark_admission'),
+        0
+    )
+);
+
+$settings->add(
+    new admin_setting_configcheckbox(
+        'spark_admission/restrictionkindergarten',
+        get_string('restrictionkindergarten', 'spark_admission'),
+        get_string('restrictionkindergartendesc', 'spark_admission'),
+        0
+    )
+);
+
+$settings->add(
+    new admin_setting_configtext(
+        'spark_admission/prekentranceage',
+        get_string('prekentranceage', 'spark_admission'),
+        get_string('prekentranceagedesc', 'spark_admission'),
+        4,
+        PARAM_INT
+    )
+);
+
+$settings->add(
+    new admin_setting_configtext(
+        'spark_admission/kindergartenentranceage',
+        get_string('kindergartenentranceage', 'spark_admission'),
+        get_string('kindergartenentranceagedesc', 'spark_admission'),
+        5,
+        PARAM_INT
+    )
+);
+
+$options = array(
+    1 => get_string('agecalculationmethodbefore', 'spark_admission'),
+    2 => get_string('agecalculationmethodonorbefore', 'spark_admission')
+);
+
+$settings->add(
+    new admin_setting_configselect(
+        'spark_admission/agecalculationmethod',
+        get_string('agecalculationmethod', 'spark_admission'),
+        get_string('agecalculationmethoddesc', 'spark_admission'),
+        2,
+        $options)
+    );
+
 $settings->add(
     new admin_setting_confightmleditor(
         'spark_admission/description',
@@ -65,9 +129,9 @@ $settings->add(
         get_string('termsandconditions', 'spark_admission'),
         '',
         '<p><strong>Terms and Conditions:</strong></p>
-        <p style="text-align: justify;">I hereby certify that, to the best of my knowledge and belief, the answers to the foregoing 
-        questions and statements made by me in this application are complete and accurate. I understand that any false information, 
-        omissions, or misrepresentations of facts may result in rejection of this application or future dismissal of the applicant. 
+        <p style="text-align: justify;">I hereby certify that, to the best of my knowledge and belief, the answers to the foregoing
+        questions and statements made by me in this application are complete and accurate. I understand that any false information,
+        omissions, or misrepresentations of facts may result in rejection of this application or future dismissal of the applicant.
         I also understand that the School will contact me for future communication.</p>'
     )
 );
@@ -111,18 +175,18 @@ $settings->add(
         get_string('verificationbody', 'spark_admission'),
         '[[parentname]] [[appliedyear]] [[studentfirstname]] [[studentlastname]] [[validationurl]] [[today]]',
         '<p>Dear [[parentname]],</p>
-        <p>We have received an online application for [[appliedyear]] school year at our website 
+        <p>We have received an online application for [[appliedyear]] school year at our website
         for [[studentfirstname]] [[studentlastname]] on [[today]] Since future  communications, such as waiting list
          updates or other time sensitive enrollment information,  will be solely sent via this email we need to ensure that this email is valid.</p>
-        <p>To validate your email and complete your application process click the link below.  If you do not respond timely to this email 
+        <p>To validate your email and complete your application process click the link below.  If you do not respond timely to this email
         your application will remain incomplete.  Incomplete applications may be denied admission.</p>
         <p><a target="_blank" href="[[validationurl]]"> Please click here to validate your email.</a></p>
         <p>Or copy and paste the link below to your browser\'s address bar and press enter.</p>
         <p>[[validationurl]]</p>
-        <p>Please be aware that, this application does not guarantee the enrollment and serves as an intention to enroll, 
-        and gives you a chance to be in the lottery if needed. You need to follow up the status of your application and finalize the 
+        <p>Please be aware that, this application does not guarantee the enrollment and serves as an intention to enroll,
+        and gives you a chance to be in the lottery if needed. You need to follow up the status of your application and finalize the
         paperwork to complete the enrollment.</p>
-        
+
         <p>Good Luck.</p>
         <p>Admission Office</p>'
     )
@@ -143,3 +207,4 @@ $settings->add(
         '<p>Congratulations! Your application has been submitted successfully.</p>'
     )
 );
+

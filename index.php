@@ -8,9 +8,53 @@ require_once($CFG->dirroot.'/spark/core/includes/phpformbuilder/Validator/Valida
 require_once($CFG->dirroot.'/spark/core/includes/phpformbuilder/Validator/Exception.php');
 require_once($CFG->dirroot.'/spark/admission/lib.php');
 
+$errorpage = <<<EOT
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Application Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
+    <style>
+        .container {
+            max-width: 600px;
+        }
+        .red {
+            color:red;
+            font-size: 10px;
+        }
+        .text-danger {
+            color:red;
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <p class="alert alert-warning">%errormessage%</p>
+</div>
+</body>
+</html>
+EOT;
+
+
 $formid = 'application-form';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && Form::testToken($formid) === true) {
+    try {
+        spark_admission_age_gate();
+    } catch(Exception $ex) {
+        $message = $ex->getMessage();
+        echo str_replace('%errormessage%', $message, $errorpage);
+        die;
+    }
+
     $validator = new Validator($_POST);
 
     if ($requireds = $DB->get_records('spark_admission_app_fields', array('required' => 1, 'disabled' => 0))) {
@@ -244,22 +288,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && Form::testToken($formid) === true) {
 /* ==================================================
     The Form
 ================================================== */
-
-$sql = "SELECT a.name,
-               a.label,
-               a.placeholder,
-               a.mask,
-               a.helptext,
-               a.defaultvalue,
-               a.options,
-               a.disabled,
-               a.required,
-               a.optional,
-               a.timecreated,
-               a.timemodified
-          FROM {spark_admission_app_fields} a";
-
-$formfields = $DB->get_records_sql($sql);
+$formfields = spark_admission_get_formfields();
 
 $form = new Form($formid, 'horizontal', 'novalidate,autocomplete=off', 'bs3');
 

@@ -142,3 +142,17 @@ $string['selectoption'] = 'Choose...';
 $string['all'] = 'All';
 $string['sendverificationemail'] = 'Send verification email';
 $string['pluginsettings'] = 'Admission Plugin Settings';
+
+$string['restrictionkindergarten'] = 'Enforce Kindergarten Entrance Age Restriction?';
+$string['restrictionprek'] = 'Enforce PreK Entrance Age Restriction?';
+$string['restrictionkindergartendesc'] = 'When checked, the application form cannot be submitted with unacceptable entrance age.';
+$string['restrictionprekdesc'] = 'When checked, the application form cannot be submitted with unacceptable entrance age.';
+
+$string['kindergartenentranceage'] = 'Kindergarten Entrance Age';
+$string['kindergartenentranceagedesc'] = 'The age of student as of the date indicated below.';
+$string['prekentranceage'] = 'PreK Entrance Age';
+$string['prekentranceagedesc'] = 'The age of student as of the date indicated below.';
+$string['agecalculationmethodbefore'] = 'Before';
+$string['agecalculationmethodonorbefore'] = 'On or before';
+$string['agecalculationmethod'] = 'Age Calculation Method';
+$string['agecalculationmethoddesc'] = 'Before: If the cutoff date is September 1, the student must be at the entrance age as of August 31st.  On or Before: If the cutoff date is September 1, the student must be at the entrance age as of September 1st.';
