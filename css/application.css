@@ -1,0 +1,55 @@
+.paging {
+    margin: 10px 0;
+}
+table.flexible,
+.generaltable {
+    background-color: white;
+    border: 1px solid #BBB;
+    font-size: 12px;
+}
+table.flexible td,
+.generaltable td {
+    padding: 3px !important;
+}
+table.flexible th.header,
+.generaltable th.header {
+    background-color: #ddd;
+    vertical-align: top;
+}
+.caction img,
+.caction2 img,
+img.actionicon {
+    max-width: none !important;
+}
+.data-table-wrapper {
+    overflow: auto;
+    margin-bottom: 20px;
+}
+.data-table-wrapper table.generaltable {
+    margin-bottom: 0;
+}
+#page-spark-admission-communication_log .app-preview-wrapper {
+    height: 200px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 5px 0 20px 0;
+    background-color: white;
+}
+#page-spark-admission-communication_log .app-preview-wrapper table td{
+    padding: 3px 10px 3px 0;
+}
+.search-form-wrapper-advanced {
+    background-color: white;
+    border: 1px solid #DDD;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 20px;
+}
+.filter-form-label {
+    float: left;
+    width: 165px;
+}
+.filter-reset {
+    margin-left: 10px;
+}
