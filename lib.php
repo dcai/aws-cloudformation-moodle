@@ -174,7 +174,10 @@ function spark_admission_age_gate() {
     $currentyear = date('y');
     $cutoffdate = "$cutoffday/$cutoffmonth/$currentyear";
 
-    $gradename = $grades[$gradecode];
+    $gradename = '';
+    if (!empty($gradecode)) {
+        $gradename = $grades[$gradecode];
+    }
     $errormessage = "Student must be $agegap years old $method $cutoffdate to start $gradename in $schoolyearappliedfor school year. If you think you are getting this message in an error, please contact the school admission office.";
 
     $dob_month = $_POST['student_birth_date_month'];

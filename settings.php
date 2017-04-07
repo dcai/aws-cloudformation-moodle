@@ -55,67 +55,6 @@ $settings->add(
 );
 
 $settings->add(
-    new admin_setting_configdate(
-        'spark_admission/cutoffdatemonth',
-        'cutoffdateday',
-        'cutoff date',
-        'cutoff date desc'
-    )
-);
-
-$settings->add(
-    new admin_setting_configcheckbox(
-        'spark_admission/restrictionprek',
-        get_string('restrictionprek', 'spark_admission'),
-        get_string('restrictionprekdesc', 'spark_admission'),
-        0
-    )
-);
-
-$settings->add(
-    new admin_setting_configcheckbox(
-        'spark_admission/restrictionkindergarten',
-        get_string('restrictionkindergarten', 'spark_admission'),
-        get_string('restrictionkindergartendesc', 'spark_admission'),
-        0
-    )
-);
-
-$settings->add(
-    new admin_setting_configtext(
-        'spark_admission/prekentranceage',
-        get_string('prekentranceage', 'spark_admission'),
-        get_string('prekentranceagedesc', 'spark_admission'),
-        4,
-        PARAM_INT
-    )
-);
-
-$settings->add(
-    new admin_setting_configtext(
-        'spark_admission/kindergartenentranceage',
-        get_string('kindergartenentranceage', 'spark_admission'),
-        get_string('kindergartenentranceagedesc', 'spark_admission'),
-        5,
-        PARAM_INT
-    )
-);
-
-$options = array(
-    1 => get_string('agecalculationmethodbefore', 'spark_admission'),
-    2 => get_string('agecalculationmethodonorbefore', 'spark_admission')
-);
-
-$settings->add(
-    new admin_setting_configselect(
-        'spark_admission/agecalculationmethod',
-        get_string('agecalculationmethod', 'spark_admission'),
-        get_string('agecalculationmethoddesc', 'spark_admission'),
-        2,
-        $options)
-    );
-
-$settings->add(
     new admin_setting_confightmleditor(
         'spark_admission/description',
         get_string('description', 'spark_admission'),
@@ -207,4 +146,73 @@ $settings->add(
         '<p>Congratulations! Your application has been submitted successfully.</p>'
     )
 );
+
+$settings->add(
+    new admin_setting_heading(
+        'spark_admission/entryagerestriction',
+        get_string('entryagerestriction', 'spark_admission'),
+        ''
+    )
+);
+
+$settings->add(
+    new admin_setting_configdate(
+        'spark_admission/cutoffdatemonth',
+        'cutoffdateday',
+        get_string('entryagecutoffdate', 'spark_admission'),
+        ''
+    )
+);
+
+$settings->add(
+    new admin_setting_configcheckbox(
+        'spark_admission/restrictionprek',
+        get_string('restrictionprek', 'spark_admission'),
+        get_string('restrictionprekdesc', 'spark_admission'),
+        0
+    )
+);
+
+$settings->add(
+    new admin_setting_configcheckbox(
+        'spark_admission/restrictionkindergarten',
+        get_string('restrictionkindergarten', 'spark_admission'),
+        get_string('restrictionkindergartendesc', 'spark_admission'),
+        0
+    )
+);
+
+$settings->add(
+    new admin_setting_configtext(
+        'spark_admission/prekentranceage',
+        get_string('prekentranceage', 'spark_admission'),
+        get_string('prekentranceagedesc', 'spark_admission'),
+        4,
+        PARAM_INT
+    )
+);
+
+$settings->add(
+    new admin_setting_configtext(
+        'spark_admission/kindergartenentranceage',
+        get_string('kindergartenentranceage', 'spark_admission'),
+        get_string('kindergartenentranceagedesc', 'spark_admission'),
+        5,
+        PARAM_INT
+    )
+);
+
+$options = array(
+    1 => get_string('agecalculationmethodbefore', 'spark_admission'),
+    2 => get_string('agecalculationmethodonorbefore', 'spark_admission')
+);
+
+$settings->add(
+    new admin_setting_configselect(
+        'spark_admission/agecalculationmethod',
+        get_string('agecalculationmethod', 'spark_admission'),
+        get_string('agecalculationmethoddesc', 'spark_admission'),
+        2,
+        $options)
+    );
 

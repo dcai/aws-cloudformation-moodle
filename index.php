@@ -8,51 +8,22 @@ require_once($CFG->dirroot.'/spark/core/includes/phpformbuilder/Validator/Valida
 require_once($CFG->dirroot.'/spark/core/includes/phpformbuilder/Validator/Exception.php');
 require_once($CFG->dirroot.'/spark/admission/lib.php');
 
-$errorpage = <<<EOT
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Application Form</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-
-    <style>
-        .container {
-            max-width: 600px;
-        }
-        .red {
-            color:red;
-            font-size: 10px;
-        }
-        .text-danger {
-            color:red;
-            font-size: 10px;
-        }
-    </style>
-</head>
-
-<body>
-<div class="container">
-    <p class="alert alert-warning">%errormessage%</p>
+$errormessagewrapper = <<<EOT
+<div style="width:30em">
+    <p class="text-danger">%errormessage%</p>
 </div>
-</body>
-</html>
 EOT;
 
 
 $formid = 'application-form';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && Form::testToken($formid) === true) {
+    $ageError = null;
     try {
         spark_admission_age_gate();
     } catch(Exception $ex) {
         $message = $ex->getMessage();
-        echo str_replace('%errormessage%', $message, $errorpage);
-        die;
+        $ageError = str_replace('%errormessage%', $message, $errormessagewrapper);
     }
 
     $validator = new Validator($_POST);
@@ -72,13 +43,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && Form::testToken($formid) === true) {
         $validator->email()->validate('alternate_email');
     }
 
+
     //$validator->hasPattern('/custom_regex/')->validate($field_name);
     //$validator->length(5)->validate('zip-code');
 
     // check for errors
+    $haserror = $validator->hasErrors() || !empty($ageError);
+    if ($haserror) {
+        $formbuildererrors = $validator->hasErrors() ? $validator->getAllErrors() : array();
+        $extraerrors = array();
+        if (!empty($ageError)) {
+            $extraerrors['student_birth_date_month'] = $ageError;
 
-    if ($validator->hasErrors()) {
-        $_SESSION['errors'][$formid] = $validator->getAllErrors();
+        }
+        $_SESSION['errors'][$formid] = array_merge($formbuildererrors, $extraerrors);
     } else {
         $formdata = (object)$_POST;
         $schoolcode = get_config('spark_core', 'schoolcode');
